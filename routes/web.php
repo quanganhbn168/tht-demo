@@ -9,7 +9,11 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\VideoController;
+use UniSharp\LaravelFilemanager\Lfm;
 
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['auth']], function () {
+    Lfm::routes();
+});
 Route::get('/', function () {
     return view('frontend.index');
 });

@@ -19,9 +19,15 @@
                 </a>
                 <ul class="nav nav-treeview">
                     @foreach ($item['submenu'] as $sub)
+                        @php
+                            $routeName = $sub['route'] ?? null;
+                            $params = $sub['params'] ?? [];
+                            $url = $routeName ? route($routeName, $params) : '#';
+                            $isActive = $routeName ? is_active_menu($routeName) : '';
+                        @endphp
                         <li class="nav-item">
-                            <a href="{{ route($sub['route']) }}" class="nav-link {{ is_active_menu($sub['route']) }}">
-                                <i class="far fa-circle nav-icon"></i>
+                            <a href="{{ $url }}" class="nav-link {{ $isActive }}">
+                                <i class="{{ $sub['icon'] ?? 'far fa-circle' }} nav-icon"></i>
                                 <p>{{ $sub['title'] }}</p>
                             </a>
                         </li>
@@ -29,11 +35,14 @@
                 </ul>
             </li>
         @else
+            @php
+                $routeName = $item['route'] ?? null;
+                $params = $item['params'] ?? [];
+                $url = $routeName ? route($routeName, $params) : ($item['url'] ?? '#');
+                $isActive = $routeName ? is_active_menu($routeName) : '';
+            @endphp
             <li class="nav-item">
-                <a
-                    href="{{ $item['route'] ?? false ? route($item['route']) : ($item['url'] ?? '#') }}"
-                    class="nav-link {{ isset($item['route']) ? is_active_menu($item['route']) : '' }}"
-                >
+                <a href="{{ $url }}" class="nav-link {{ $isActive }}">
                     <i class="nav-icon {{ $item['icon'] }}"></i>
                     <p>{{ $item['title'] }}</p>
                 </a>

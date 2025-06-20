@@ -4,62 +4,69 @@ namespace App\Http\Controllers;
 
 use App\Models\Slide;
 use Illuminate\Http\Request;
+use App\Services\SlideService;
 
 class SlideController extends Controller
 {
+    protected $slideService;
+
+    public function __construct(SlideService $slideService)
+    {
+        $this->slideService = $slideService;
+    }
+
     /**
-     * Display a listing of the resource.
+     * Danh sách tất cả slide.
      */
     public function index()
     {
-        //
+        $slides = Slide::orderBy('position')->get();
+        return view('admin.slides.index', compact('slides'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Form tạo mới slide.
      */
     public function create()
     {
-        //
+        return view('admin.slides.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Lưu slide mới vào CSDL.
      */
     public function store(Request $request)
     {
-        //
+        $this->slideService->create($request);
+
+        return $request->input('action') === 'save_new'
+            ? redirect()->route('admin.slides.create')->with('success', 'Đã thêm slide, tiếp tục thêm mới.')
+            : redirect()->route('admin.slides.index')->with('success', 'Đã thêm slide.');
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Slide $slide)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
+     * Form chỉnh sửa slide.
      */
     public function edit(Slide $slide)
     {
-        //
+        return view('admin.slides.edit', compact('slide'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Cập nhật slide đã tồn tại.
      */
     public function update(Request $request, Slide $slide)
     {
-        //
+        $this->slideService->update($request, $slide);
+        return redirect()->route('admin.slides.index')->with('success', 'Đã cập nhật slide.');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Xoá slide.
      */
     public function destroy(Slide $slide)
     {
-        //
+        $this->slideService->delete($slide);
+        return redirect()->route('admin.slides.index')->with('success', 'Đã xóa slide.');
     }
 }

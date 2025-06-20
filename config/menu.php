@@ -22,6 +22,38 @@ return [
             ],
         ],
     ],
+/*    [
+        'title' => 'Quản lý dự án',
+        'icon' => 'bi bi-collection',
+        'submenu' => [
+            [
+                'title' => 'Danh mục dự án',
+                'route' => 'admin.projects.index',
+                'icon' => 'bi bi-clipboard',
+            ],
+            [
+                'title' => 'Dự án',
+                'route' => 'admin.products.index',
+                'icon' => 'bi bi-clipboard-minus',
+            ],
+        ],
+    ],
+*/    [
+        'title' => 'Quản lý dịch vụ',
+        'icon' => 'bi bi-journal-bookmark-fill',
+        'submenu' => [
+            [
+                'title' => 'Danh mục dịch vụ',
+                'route' => 'admin.service_categories.index',
+                'icon' => 'bi bi-journal',
+            ],
+            [
+                'title' => 'Dự án',
+                'route' => 'admin.services.index',
+                'icon' => 'bi bi-journal-medical',
+            ],
+        ],
+    ],
     [
         'title' => 'Quản lý bài viết',
         'icon' => 'bi bi-file-text',
@@ -44,9 +76,9 @@ return [
         'route' => 'admin.slides.index',
     ],
     [
-        'title' => 'Cấu hình',
-        'icon' => 'bi bi-gear',
-        'route' => 'admin.settings.index',
+        'title' => 'Quản lý giới thiệu',
+        'icon' => 'bi bi-images',
+        'route' => 'admin.intros.index',
     ],
     [
         'title' => 'Liên hệ',
@@ -54,8 +86,8 @@ return [
         'route' => 'admin.contacts.index',
     ],
     [
-        'title' => 'Theme Generator',
-        'icon' => 'bi bi-palette',
-        'url'  => '/dist/pages/generate/theme',
+        'title' => 'Cấu hình',
+        'icon' => 'bi bi-gear',
+        'route' => 'admin.settings.index',
     ],
 ];
