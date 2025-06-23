@@ -16,6 +16,8 @@ class ServiceCategoryService
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:service_categories,slug',
+            'description' => 'nullable|string',
+            'content' => 'nullable|string',
             'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
             'banner' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
             'parent_id' => [
@@ -53,6 +55,8 @@ class ServiceCategoryService
                 Rule::unique('service_categories', 'slug')->ignore($category->id)
             ],
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'description' => 'nullable|string',
+            'content' => 'nullable|string',
             'banner' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
             'parent_id' => [
                 'nullable',
@@ -60,9 +64,6 @@ class ServiceCategoryService
                 function ($attribute, $value, $fail) use ($category) {
                     if ($value == $category->id) {
                         $fail('Danh mục không thể là cha của chính nó.');
-                    }
-                    if ($value !== 0 && !ServiceCategory::where('id', $value)->exists()) {
-                        $fail('Danh mục cha không tồn tại.');
                     }
                 }
             ],

@@ -23,19 +23,21 @@ class ServiceCategoryController extends Controller
 
     public function create()
     {
-        $categories = ServiceCategory::pluck('name', 'id');
+        $categories = ServiceCategory::get(['id', 'parent_id', 'name'])->toArray();
         return view('admin.service_categories.create', compact('categories'));
     }
 
     public function store(Request $request)
     {
         $this->service->create($request);
-        return redirect()->route('admin.service_categories.index')->with('success', 'Tạo danh mục thành công.');
+        return $request->input('action') === 'save_new'
+            ? redirect()->route('admin.service_categories.create')->with('success', 'Đã thêm danh mục, tiếp tục thêm mới.')
+            : redirect()->route('admin.service_categories.index')->with('success', 'Đã thêm danh mục.');
     }
 
     public function edit(ServiceCategory $service_category)
     {
-        $categories = ServiceCategory::where('id', '!=', $service_category->id)->pluck('name', 'id');
+        $categories = ServiceCategory::get(['id', 'parent_id', 'name'])->toArray();
         return view('admin.service_categories.edit', compact('service_category', 'categories'));
     }
 

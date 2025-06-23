@@ -11,13 +11,20 @@
             <x-form.input name="name" label="Tên danh mục" :value="old('name')" />
             <x-form.textarea name="description" label="Mô tả" :value="old('description')" />
             <x-form.ckeditor name="content" label="Nội dung" :value="old('content')" />
-            <x-form.select name="parent_id" label="Danh mục cha" :options="$categories" :selected="old('parent_id')" placeholder="-- Danh mục cha --" />
+            <x-form.category-select
+                name="parent_id"
+                label="Danh mục"
+                :options="$categories"
+                :selected="old('parent_id', 0)"
+            />
+
             <x-form.image-input name="image" label="Ảnh đại diện" />
             <x-form.image-input name="banner" label="Banner (tuỳ chọn)" />
             <x-form.switch name="status" label="Trạng thái" :checked="old('status', true)" />
         </div>
         <div class="card-footer">
-            <button class="btn btn-primary">Lưu</button>
+            <button type="submit" name="action" value="save" class="btn btn-primary">Lưu</button>
+            <button type="submit" name="action" value="save_new" class="btn btn-secondary">Lưu và thêm mới</button>
             <a href="{{ route('admin.service_categories.index') }}" class="btn btn-outline-dark">Quay lại</a>
         </div>
     </form>

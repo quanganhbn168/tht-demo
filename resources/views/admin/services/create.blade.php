@@ -8,7 +8,7 @@
         @csrf
         <div class="card-body">
             <x-form.input type="text" name="name" label="Tên dự án" :value="old('name')" required />
-            <x-form.select name="service_category_id" label="Danh mục" :options="$categories" :selected="old('service_category_id')" placeholder="-- Chọn danh mục --" required />
+            <x-form.category-select name="service_category_id" label="Danh mục" :options="$categories" :selected="old('parent_id', 0)" placeholder="-- Chọn danh mục --" required />
             <x-form.image-input name="image" label="Ảnh dự án" />
             <x-form.image-multi-input
                 name="gallery"
@@ -21,7 +21,8 @@
             <x-form.switch name="status" label="Trạng thái" :checked="old('status', true)" />
         </div>
         <div class="card-footer">
-            <button class="btn btn-primary">Lưu</button>
+            <button type="submit" name="action" value="save" class="btn btn-primary">Lưu</button>
+            <button type="submit" name="action" value="save_new" class="btn btn-secondary">Lưu và thêm mới</button>
             <a href="{{ route('admin.services.index') }}" class="btn btn-outline-dark">Quay lại</a>
         </div>
     </form>

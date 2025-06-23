@@ -16,7 +16,7 @@
         <link href="{{asset('plugins/summernote/summernote-bs4.min.css')}}" rel="stylesheet">
         <link rel="stylesheet" href="{{asset('plugins/sweetalert2/bootstrap-4.min.css')}}">
         <link rel="stylesheet" href="{{asset('plugins/toastr/toastr.min.css')}}">
-        <link rel="icon" href="{{ asset('THT-media.ico') }}" type="image/x-icon" />
+        <link rel="icon" href="{{ asset($setting->favicon) }}" type="image/x-icon" />
         @stack('css')
     </head>
     <body class="hold-transition sidebar-mini layout-fixed">

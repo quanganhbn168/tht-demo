@@ -77,12 +77,12 @@ return [
     ],
     [
         'title' => 'Quản lý giới thiệu',
-        'icon' => 'bi bi-images',
+        'icon' => 'bi bi-file-earmark-person',
         'route' => 'admin.intros.index',
     ],
     [
         'title' => 'Liên hệ',
-        'icon' => 'bi bi-envelope',
+        'icon' => 'bi bi-mailbox-flag',
         'route' => 'admin.contacts.index',
     ],
     [

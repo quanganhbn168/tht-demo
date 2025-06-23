@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class ServiceCategory extends Model
 {
     use HasFactory;
-
+    protected $table = 'service_categories';
     protected $fillable = [
         'name', 'slug', 'image', 'banner', 'parent_id', 'status', 'description', 'content'
     ];

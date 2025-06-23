@@ -29,12 +29,11 @@
                 :value="old('content', $service_category->content)"
             />
 
-            <x-form.select
+            <x-form.category-select
                 name="parent_id"
-                label="Danh mục cha"
+                label="Danh mục"
                 :options="$categories"
                 :selected="old('parent_id', $service_category->parent_id)"
-                placeholder="-- Không có danh mục cha --"
             />
 
             <x-form.image-input
@@ -63,4 +62,3 @@
     </form>
 </div>
 @endsection
-a

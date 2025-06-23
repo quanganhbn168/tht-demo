@@ -46,4 +46,10 @@ class IntroController extends Controller
         $this->introService->delete($intro);
         return redirect()->route('admin.intros.index')->with('success', 'Intro deleted successfully.');
     }
+
+    public function show()
+    {
+        $intro = Intro::findOrFail(1);
+        return view("frontend.intro", compact("intro"));
+    }
 }

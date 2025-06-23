@@ -41,4 +41,9 @@ class PostCategory extends Model
     {
         return $this->hasMany(self::class, 'parent_id');
     }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 }

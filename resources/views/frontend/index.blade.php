@@ -3,83 +3,104 @@
 @push('css')
 <link rel="stylesheet" href="{{asset('css/slide.css')}}?{{time()}}">
 <link rel="stylesheet" href="{{asset('vendor/glightbox/css/glightbox.min.css')}}?{{time()}}">
+<style>
+	.story-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-auto-rows: masonry ? auto : 200px;
+  grid-auto-flow: dense;
+  gap: 16px;
+}
+
+/* Thả tùy chỉnh kích thước item */
+.story-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+
+/* Styles cơ bản */
+.story-item {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.story-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.story-title {
+  padding: 8px 0;
+  font-size: 1rem;
+  color: var(--rq-white);
+  background-color: var(--rq-primary);
+  text-align: center;
+  font-weight: 600;
+}
+
+</style>
 @endpush
 @section('content')
 @include('partials.frontend.slide')
 <section id="tab-home" class="tab-home section">
 	<div class="container">
-		<h2 class="section-title">
-			<a href="#">DỰ ÁN THIẾT KẾ - THI CÔNG NỘI THẤT</a>
-		</h2>
-		<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-			<li class="nav-item" role="presentation">
-				<a class="nav-link active" id="tab-chung-cu" data-toggle="pill" href="#pane-chung-cu" role="tab" aria-controls="pane-chung-cu" aria-selected="true">
-					<img src="{{asset('images/setting/chung-cu-1.png')}}" alt="Chung cư 1">
-					<span>Chung cư</span>
-				</a>
-			</li>
-			<li class="nav-item" role="presentation">
-				<a class="nav-link" id="tab-nha-pho" data-toggle="pill" href="#pane-nha-pho" role="tab" aria-controls="pane-nha-pho" aria-selected="false">
-					<img src="{{asset('images/setting/nha-pho.png')}}" alt="Nhà phố">
-					<span>Nhà phố</span>
-				</a>
-			</li>
-			<li class="nav-item" role="presentation">
-				<a class="nav-link" id="tab-biet-thu" data-toggle="pill" href="#pane-biet-thu" role="tab" aria-controls="pane-biet-thu" aria-selected="false">
-					<img src="{{asset('images/setting/biet-thu.png')}}" alt="Biệt thự">
-					<span>Biệt thự</span>
-				</a>
-			</li>
-			<li class="nav-item" role="presentation">
-				<a class="nav-link" id="tab-van-phong" data-toggle="pill" href="#pane-van-phong" role="tab" aria-controls="pane-van-phong" aria-selected="false">
-					<img src="{{asset('images/setting/van-phong.png')}}" alt="Văn phòng">
-					<span>Văn Phòng</span>
-				</a>
-			</li>
-			<li class="nav-item" role="presentation">
-				<a class="nav-link" id="tab-phong-ngu" data-toggle="pill" href="#pane-phong-ngu" role="tab" aria-controls="pane-phong-ngu" aria-selected="false">
-					<img src="{{asset('images/setting/phong-ngu.png')}}" alt="Phòng ngủ">
-					<span>Phòng ngủ</span>
-				</a>
-			</li>
-			<li class="nav-item" role="presentation">
-				<a class="nav-link" id="tab-phong-khach" data-toggle="pill" href="#pane-phong-khach" role="tab" aria-controls="pane-phong-khach" aria-selected="false">
-					<img src="{{asset('images/setting/phong-khach.png')}}" alt="Phòng khách">
-					<span>Phòng khách</span>
-				</a>
-			</li>
-		</ul>
+    <h2 class="section-title">
+        <a href="#">Công trình đã thi công</a>
+    </h2>
 
-		<div class="tab-content" id="pills-tabContent">
-			<div class="tab-pane fade show active" id="pane-chung-cu" role="tabpanel" aria-labelledby="tab-chung-cu">
-				<div class="tab-list">
-					<div class="row">
-						@for ($i = 0; $i < 6; $i++)
-						<div class="col-6 col-lg-4 col-md-6 col-sm-6">
-							<a href="">
-								<div class="tab-item">
-									<div class="box-imge">
-										<img src="{{asset('images/setting/banner-004.jpg')}}" alt="">
-									</div>
-									<div class="box-title">
-										<img src="{{asset('images/setting/THT-media-logo.png')}}" alt="">
-										<p>Dự án A</p>
-									</div>
-								</div>
-							</a>
-						</div>
-						@endfor
-					</div>
-				</div>
-			</div>
+    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        @foreach($serviceCategory as $key => $category)
+            @php
+                $slugId = Str::slug($category->slug ?? $category->name, '-');
+            @endphp
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {{ $key == 0 ? 'active' : '' }}"
+                   id="tab-{{ $slugId }}"
+                   data-toggle="pill"
+                   href="#pane-{{ $slugId }}"
+                   role="tab"
+                   aria-controls="pane-{{ $slugId }}"
+                   aria-selected="{{ $key == 0 ? 'true' : 'false' }}">
+                    {{-- <img src="{{ asset($category->image ?? 'images/setting/no-image.png') }}" alt="{{ $category->name }}"> --}}
+                    <span>{{ $category->name }}</span>
+                </a>
+            </li>
+        @endforeach
+    </ul>
 
-			<div class="tab-pane fade" id="pane-nha-pho" role="tabpanel" aria-labelledby="tab-nha-pho">...</div>
-			<div class="tab-pane fade" id="pane-biet-thu" role="tabpanel" aria-labelledby="tab-biet-thu">...</div>
-			<div class="tab-pane fade" id="pane-van-phong" role="tabpanel" aria-labelledby="tab-van-phong">...</div>
-			<div class="tab-pane fade" id="pane-phong-ngu" role="tabpanel" aria-labelledby="tab-phong-ngu">...</div>
-			<div class="tab-pane fade" id="pane-phong-khach" role="tabpanel" aria-labelledby="tab-phong-khach">...</div>
-		</div>
-	</div>
+    <div class="tab-content" id="pills-tabContent">
+        @foreach($serviceCategory as $key => $category)
+            @php
+                $slugId = Str::slug($category->slug ?? $category->name, '-');
+            @endphp
+            <div class="tab-pane fade {{ $key == 0 ? 'show active' : '' }}"
+                 id="pane-{{ $slugId }}"
+                 role="tabpanel"
+                 aria-labelledby="tab-{{ $slugId }}">
+                <div class="tab-list">
+                    <div class="row">
+                        @forelse($category->services as $service)
+                            <div class="col-6 col-lg-4 col-md-6 col-sm-6">
+                                <a href="{{ route('services.show', $service->slug) }}">
+                                    <div class="tab-item">
+                                        <div class="box-imge">
+                                            <img src="{{ asset($service->image ?? 'images/setting/no-image.png') }}" alt="{{ $service->name }}">
+                                        </div>
+                                        <div class="box-title">
+                                            <img src="{{ asset($setting->logo) }}" alt="">
+                                            <p>{{ $service->name }}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        @empty
+                            <p class="text-muted">Chưa có dịch vụ nào.</p>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+</div>
+
 </section>
 				
 <div id="banggia">
@@ -87,134 +108,45 @@
 		<img src="{{asset('images/setting/banner-nhan-bao-gia.jpg')}}" alt="">
 	</a>
 </div>
+@foreach($serviceCategoryHome as $category)
 <section class="section category">
 	<div class="container">
-		<h3 class="section-title text-center">Thiết kế kiến trúc</h3>
-		<h3 class="section-title-second text-center">Thiết kế kiến trúc</h3>
+		<h3 class="section-title text-center">{{ $category->name }}</h3>
+		@if($category->description)
+			<h3 class="section-title-second text-center">{{ $category->description }}</h3>
+		@endif
 		<div class="section-content">
 			<div class="swiper categorySlide">
 				<div class="swiper-wrapper">
+					@foreach($category->children as $child)
 					<div class="swiper-slide">
 						<div class="categorySlide-item">
-							<img src="{{asset('images/slides/slide-doc-001.jpg')}}" alt="">
-							<a href="">Tên slide</a>
+							<img src="{{ asset($child->image ?? 'images/setting/no-image.png') }}" alt="{{ $child->name }}">
+							<a href="{{ route('services.serviceByCate', $child->slug) }}">{{ $child->name }}</a>
 						</div>
 					</div>
-					<div class="swiper-slide">
-						<div class="categorySlide-item">
-							<img src="{{asset('images/slides/slide-doc-001.jpg')}}" alt="">
-							<a href="">Tên slide</a>
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="categorySlide-item">
-							<img src="{{asset('images/slides/slide-doc-001.jpg')}}" alt="">
-							<a href="">Tên slide</a>
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="categorySlide-item">
-							<img src="{{asset('images/slides/slide-doc-001.jpg')}}" alt="">
-							<a href="">Tên slide</a>
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="categorySlide-item">
-							<img src="{{asset('images/slides/slide-doc-001.jpg')}}" alt="">
-							<a href="">Tên slide</a>
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="categorySlide-item">
-							<img src="{{asset('images/slides/slide-doc-001.jpg')}}" alt="">
-							<a href="">Tên slide</a>
-						</div>
-					</div>
+					@endforeach
 				</div>
 				<div class="swiper-pagination"></div>
-  			<div class="swiper-button-prev"></div>
-  			<div class="swiper-button-next"></div>
+				<div class="swiper-button-prev"></div>
+				<div class="swiper-button-next"></div>
 			</div>
 		</div>
 	</div>
 </section>
-<section class="section category">
-	<div class="container">
-		<h3 class="section-title text-center">Thiết kế, thi công nội thất</h3>
-		<h3 class="section-title-second text-center">Dịch vụ thiết kế, thi công nội thất của chúng tôi</h3>
-		<div class="section-content">
-			<div class="swiper categorySlide">
-				<div class="swiper-wrapper">
-					<div class="swiper-slide">
-						<div class="categorySlide-item">
-							<img src="{{asset('images/slides/slide-doc-001.jpg')}}" alt="">
-							<a href="">Tên slide</a>
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="categorySlide-item">
-							<img src="{{asset('images/slides/slide-doc-001.jpg')}}" alt="">
-							<a href="">Tên slide</a>
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="categorySlide-item">
-							<img src="{{asset('images/slides/slide-doc-001.jpg')}}" alt="">
-							<a href="">Tên slide</a>
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="categorySlide-item">
-							<img src="{{asset('images/slides/slide-doc-001.jpg')}}" alt="">
-							<a href="">Tên slide</a>
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="categorySlide-item">
-							<img src="{{asset('images/slides/slide-doc-001.jpg')}}" alt="">
-							<a href="">Tên slide</a>
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="categorySlide-item">
-							<img src="{{asset('images/slides/slide-doc-001.jpg')}}" alt="">
-							<a href="">Tên slide</a>
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="categorySlide-item">
-							<img src="{{asset('images/slides/slide-doc-001.jpg')}}" alt="">
-							<a href="">Tên slide</a>
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="categorySlide-item">
-							<img src="{{asset('images/slides/slide-doc-001.jpg')}}" alt="">
-							<a href="">Tên slide</a>
-						</div>
-					</div>
-				</div>
-					<div class="swiper-pagination"></div>
-					<div class="swiper-button-prev"></div>
-					<div class="swiper-button-next"></div>
-			</div>
-		</div>
-	</div>
-</section>
+@endforeach
+
 <section id="difference">
 	<div class="container">
 		<div class="row">
 			<div class="col-12 col-sm-12 col-md-5 order-2 order-md-1">
-				<h3>Khác biệt <br> của chúng tôi</h3>
-				<p>Lý do làm nội thất trọn gói nên chọn VOYHOME</p>
-				<ul>
-					<li>Đội KTS chuyên nghiệp – bản vẽ đạt chuẩn</li>
-					<li>Giám đốc đi lên từ thợ chính – đội ngũ thợ giàu kinh nghiệm</li>
-					<li>Có nhà xưởng sản xuất trực tiếp – giảm 30% chi phí</li>
-					<li>Miễn phí thiết kế thi công nội thất trọn gói</li>
-					<li>Cam kết thực hiện đúng 100% hợp đồng</li>
-					<li>Bảo hành 2 năm – có mặt sau 48h tiếp nhận thông tin</li>
+				<h3>Tại sao nên chọn Ruby Queen</h3>
+				<ul class="fa-ul">
+					<li><span class="fa-li"><i class="fas fa-check-circle"></i></span>Đội KTS chuyên nghiệp – bản vẽ đạt chuẩn</li>
+					<li><span class="fa-li"><i class="fas fa-check-circle"></i></span>Giám đốc đi lên từ thợ chính – đội ngũ thợ giàu kinh nghiệm</li>
+					<li><span class="fa-li"><i class="fas fa-check-circle"></i></span>Có nhà xưởng sản xuất trực tiếp – giảm 30% chi phí</li>
 				</ul>
+
 			</div>
 			<div class="col-12 col-sm-12 col-md-7 order-1 order-md-2">
 				<img src="{{asset('images/setting/banner-001.jpg')}}" alt="">
@@ -222,7 +154,7 @@
 		</div>
 	</div>
 </section>
-<section id="video" class="section">
+{{-- <section id="video" class="section">
 	<div class="container">
 		<div class="list-video">
 			<h3 class="section-title"><a href="">HOÀN THIỆN NỘI THẤT</a></h3>
@@ -304,77 +236,66 @@
 				</div>
 			</div>
 		</div>
-</section>
-<section class="section exp">
-	<div class="container">
-		<h3 class="section-title">Kinh nghiệm hay</h3>
-		<div class="section-content">
-			<div class="row">
-				<div class="col-12 col-md-7 col-sm-12">
-					<img src="{{asset('images/setting/banner-001.jpg')}}" alt="">
-				</div>
-				<div class="col-12 col-md-5 col-sm-12">
-					<div class="post-list">
-						<div class="post-item">
-							<a href="#" class="post-link">
-								<h6 class="post-title">[Tổng Hợp] Những Mẫu Thiết Kế Phòng Khách 30m2 Đẹp Hút Ánh Nhìn</h6>
-								<p class="post-meta">
-									<i class="fa-solid fa-calendar-days text-dark"></i>
-									<span class="date text-dark">04/06/2025</span>
-								</p>
-							</a>
-						</div>
-						<div class="post-item">
-							<a href="#" class="post-link">
-								<h6 class="post-title">[Tổng Hợp] Những Mẫu Thiết Kế Phòng Khách 30m2 Đẹp Hút Ánh Nhìn</h6>
-								<p class="post-meta">
-									<i class="fa-solid fa-calendar-days text-dark"></i>
-									<span class="date text-dark">04/06/2025</span>
-								</p>
-							</a>
-						</div>
-						<div class="post-item">
-							<a href="#" class="post-link">
-								<h6 class="post-title">[Tổng Hợp] Những Mẫu Thiết Kế Phòng Khách 30m2 Đẹp Hút Ánh Nhìn</h6>
-								<p class="post-meta">
-									<i class="fa-solid fa-calendar-days text-dark"></i>
-									<span class="date text-dark">04/06/2025</span>
-								</p>
-							</a>
-						</div>
-						<div class="post-item">
-							<a href="#" class="post-link">
-								<h6 class="post-title">[Tổng Hợp] Những Mẫu Thiết Kế Phòng Khách 30m2 Đẹp Hút Ánh Nhìn</h6>
-								<p class="post-meta">
-									<i class="fa-solid fa-calendar-days text-dark"></i>
-									<span class="date text-dark">04/06/2025</span>
-								</p>
-							</a>
-						</div>
-						<div class="post-item">
-							<a href="#" class="post-link">
-								<h6 class="post-title">[Tổng Hợp] Những Mẫu Thiết Kế Phòng Khách 30m2 Đẹp Hút Ánh Nhìn</h6>
-								<p class="post-meta">
-									<i class="fa-solid fa-calendar-days text-dark"></i>
-									<span class="date text-dark">04/06/2025</span>
-								</p>
-							</a>
-						</div>
-						<div class="post-item">
-							<a href="#" class="post-link">
-								<h6 class="post-title">[Tổng Hợp] Những Mẫu Thiết Kế Phòng Khách 30m2 Đẹp Hút Ánh Nhìn</h6>
-								<p class="post-meta">
-									<i class="fa-solid fa-calendar-days text-dark"></i>
-									<span class="date text-dark">04/06/2025</span>
-								</p>
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
+</section> --}}
+@foreach($homeCategories as $index => $category)
+    @if($category->posts->isNotEmpty())
+        @if($index === 0)
+        {{-- Dạng "Kinh nghiệm hay" (ảnh to + danh sách bên phải) --}}
+        <section class="section exp">
+            <div class="container">
+                <h3 class="section-title">
+                	<a href="{{route("frontend.post.postByCate",$category->slug)}}">{{ $category->name }}</a> 
+                </h3>
+                <div class="section-content">
+                    <div class="row">
+                        <div class="col-12 col-md-7 col-sm-12">
+                            <a href="{{ route('frontend.post.detail', $category->posts->first()->slug) }}">
+                                <img src="{{ asset($category->posts->first()->image ?? 'images/setting/no-image.png') }}" alt="" class="img-fluid w-100">
+                            </a>
+                        </div>
+                        <div class="col-12 col-md-5 col-sm-12">
+                            <div class="post-list">
+                                @foreach($category->posts->slice(1) as $post)
+                                <div class="post-item">
+                                    <a href="{{ route('frontend.post.detail', $post->slug) }}" class="post-link">
+                                        <h6 class="post-title">{{ $post->title }}</h6>
+                                        <p class="post-meta">
+                                            <i class="fa-solid fa-calendar-days text-dark"></i>
+                                            <span class="date text-dark">{{ $post->updated_at->format('d/m/Y') }}</span>
+                                        </p>
+                                    </a>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        @else
+        {{-- Dạng "Câu chuyện thực tế" (grid ảnh + tên) --}}
+        <section class="section story">
+            <div class="container">
+                <h2 class="section-title">
+                    <a href="{{ route('frontend.post.postByCate', $category->slug) }}">
+                        {{ $category->name }}
+                    </a>
+                </h2>
+                <div class="story-grid">
+                    @foreach($category->posts as $post)
+                    <a href="{{ route('frontend.post.detail', $post->slug) }}" class="story-item">
+                        <img src="{{ asset($post->image ?? 'images/setting/no-image.png') }}" alt="">
+                        <div class="story-title">{{ $post->title }}</div>
+                    </a>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+        @endif
+    @endif
+@endforeach
+
+
 <section id="contact" class="py-4 my-3">
 	<div class="container">
 		<div class="card text-bg-light">
@@ -384,7 +305,7 @@
 				</div>
 			</div>
 			<div class="card-body bg-light">
-				<form action="#" method="POST">
+				<form id="contact-form" action="{{route('contact.store')}}" method="POST">
 					@csrf
 					<div class="row">
 						<div class="col-12 col-md-6">
@@ -415,8 +336,8 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="content">Ý kiến</label>
-						<textarea name="content" id="content" class="form-control" autocomplete></textarea>
+						<label for="message">Ý kiến</label>
+						<textarea name="message" id="message" class="form-control" autocomplete></textarea>
 					</div>
 					<button class="btn btn-dark d-block w-100">Gửi ý kiến</button>
 				</form>
@@ -488,21 +409,73 @@
           nextEl: el.querySelector('.swiper-button-next'),
           prevEl: el.querySelector('.swiper-button-prev'),
         },
-        slidesPerView: 4,
-        slidesPerGroup: 4,
+        slidesPerView: 3,
+        slidesPerGroup: 3,
         spaceBetween: 20,
-        loopedSlides: 8,
+        loopedSlides: 6,
         loopFillGroupWithBlank: true,
         speed: 600,
         breakpoints: {
           0: { slidesPerView: 1, slidesPerGroup: 1 },
           576: { slidesPerView: 2, slidesPerGroup: 2 },
           768: { slidesPerView: 3, slidesPerGroup: 3 },
-          992: { slidesPerView: 4, slidesPerGroup: 4 }
+          992: { slidesPerView: 3, slidesPerGroup: 3 }
         }
       });
     });
   });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+<script>
+    // Custom rule kiểm tra số điện thoại Việt Nam
+    $.validator.addMethod("phoneVN", function (value, element) {
+        return this.optional(element) || /^(0[3|5|7|8|9])[0-9]{8}$|^\+84[3|5|7|8|9][0-9]{8}$/.test(value);
+    }, "Số điện thoại không hợp lệ");
+
+    $(document).ready(function () {
+        $('#contact-form').validate({
+            rules: {
+                name: {
+                    required: true,
+                    minlength: 2
+                },
+                phone: {
+                    required: true,
+                    phoneVN: true
+                },
+                email: {
+                    email: true
+                },
+                content: {
+                    maxlength: 1000
+                }
+            },
+            messages: {
+                name: {
+                    required: "Vui lòng nhập họ và tên",
+                    minlength: "Tên quá ngắn"
+                },
+                phone: {
+                    required: "Vui lòng nhập số điện thoại",
+                    phoneVN: "Số điện thoại không hợp lệ (ví dụ: 098xxxxxxx)"
+                },
+                email: {
+                    email: "Email không hợp lệ"
+                },
+                content: {
+                    maxlength: "Ý kiến không vượt quá 1000 ký tự"
+                }
+            },
+            errorElement: 'small',
+            errorClass: 'text-danger',
+            highlight: function (element) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+    });
 </script>
 
 @endpush

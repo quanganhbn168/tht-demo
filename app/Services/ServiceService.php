@@ -83,11 +83,6 @@ class ServiceService
         return $service;
     }
 
-
-
-
-
-
     public function delete(Service $service): void
     {
         $this->deleteImage($service->image);
@@ -99,5 +94,11 @@ class ServiceService
         }
 
         $service->delete();
+    }
+
+    public function getAll()
+    {
+        $slides = Slide::where('status', 1)->get();
+        return $slides;
     }
 }

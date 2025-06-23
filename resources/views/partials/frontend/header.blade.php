@@ -4,7 +4,7 @@
       <!-- Logo -->
       <div class="header-logo flex-shrink-0">
         <a href="/">
-          <img src="{{ asset('images/setting/THT-media-logo.png') }}" alt="Logo">
+          <img src="{{ asset($setting->logo) }}" alt="Logo">
         </a>
       </div>
 
@@ -60,12 +60,19 @@
       <div class="nav-container">
         <ul class="navbar-nav d-flex flex-row justify-content-center list-unstyled mb-0">
           <li class="nav-item mx-3"><a href="/" class="nav-link">Trang chủ</a></li>
-          <li class="nav-item mx-3"><a href="#" class="nav-link">Giới thiệu</a></li>
-          <li class="nav-item mx-3"><a href="#" class="nav-link">Thiết kế thi công</a></li>
-          <li class="nav-item mx-3"><a href="#" class="nav-link">Kiến trúc</a></li>
+          <li class="nav-item mx-3"><a href="{{route("intro.show")}}" class="nav-link">Giới thiệu</a></li>
+          @php
+          $categoriesServiceMenu = DB::table("service_categories")->where("parent_id",0)->get();
+          @endphp
+          @foreach($categoriesServiceMenu as $key => $cate)
+          <li class="nav-item mx-3">
+            <a href="{{route("services.serviceByCate", $cate->slug)}}" class="nav-link">
+              {{$cate->name}}
+            </a>
+          </li>
+          @endforeach
           <li class="nav-item mx-3"><a href="#" class="nav-link">Tin tức</a></li>
-          <li class="nav-item mx-3"><a href="#" class="nav-link">Liên hệ</a></li>
-          <li class="nav-item mx-3"><a href="#" class="nav-link">Video</a></li>
+          <li class="nav-item mx-3"><a href="{{route('contact.show')}}" class="nav-link">Liên hệ</a></li>
         </ul>
       </div>
     </nav>
@@ -85,7 +92,7 @@
       <li><a href="#">Thiết kế thi công</a></li>
       <li><a href="#">Kiến trúc</a></li>
       <li><a href="#">Tin tức</a></li>
-      <li><a href="#">Liên hệ</a></li>
+      <li><a href="{{route('contact.show')}}">Liên hệ</a></li>
       <li><a href="#">Video</a></li>
     </ul>
   </div>

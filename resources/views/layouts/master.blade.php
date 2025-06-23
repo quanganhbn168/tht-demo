@@ -30,26 +30,9 @@
     <meta name="twitter:title"       content="@yield('title') | {{ config('app.name') }}" />
     <meta name="twitter:description" content="@yield('meta_description')" />
     <meta name="twitter:image"       content="@yield('meta_image', asset('images/default-og.jpg'))" />
-
-    {{-- Schema.org JSON-LD --}}
-    <script type="application/ld+json">
-    {!! json_encode([
-        "@context" => "https://schema.org",
-        "@type"    => "Organization",
-        "name"     => config('app.name'),
-        "url"      => url('/'),
-        "logo"     => asset('images/logo.png'),
-        "sameAs"   => [
-            "https://www.facebook.com/YourPage",
-            "https://www.instagram.com/YourPage",
-            // thêm link mạng xã hội khác nếu có
-        ],
-    ], JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) !!}
-    </script>
-
     {{-- Fonts, Favicons --}}
-    <link rel="icon" href="{{ asset('images/setting/THT-media-logo.png') }}" type="image/x-icon" />
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}" />
+    <link rel="icon" href="{{ asset($setting->favicon) }}" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset($setting->favicon) }}" />
     {{-- CSS & JS --}}
     <link rel="stylesheet" href="{{asset('vendor/bootstrap/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('vendor/fontawesome/css/all.min.css')}}">

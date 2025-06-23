@@ -23,7 +23,7 @@ class ServiceController extends Controller
 
     public function create()
     {
-        $categories = ServiceCategory::pluck('name', 'id');
+        $categories = ServiceCategory::get(['id', 'parent_id', 'name'])->toArray();
         return view('admin.services.create', compact('categories'));
     }
 
@@ -31,16 +31,24 @@ class ServiceController extends Controller
     {
 
         $this->service->create($request);
-        return redirect()->route('admin.services.index')->with('success', 'Tạo dịch vụ thành công.');
+        return $request->input('action') === 'save_new'
+            ? redirect()->route('admin.services.create')->with('success', 'Đã thêm dự án, tiếp tục thêm mới.')
+            : redirect()->route('admin.services.index')->with('success', 'Đã thêm dự án.');
     }
 
     public function edit(Service $service)
     {
-        $categories = ServiceCategory::pluck('name', 'id');
+        $categories = ServiceCategory::get(['id', 'parent_id', 'name'])->toArray();
         $images = $service->images->pluck('image')->toArray();
         return view('admin.services.edit', compact('service', 'categories','images'));
     }
-
+    public function show(Service $service)
+    {
+        $categories = ServiceCategory::get(['id', 'parent_id', 'name'])->toArray();
+        $images = $service->images->pluck('image')->toArray();
+        return view('admin.services.edit', compact('service', 'categories','images'));
+    }
+    
     public function update(Request $request, Service $service)
     {
         $this->service->update($request, $service);
@@ -52,4 +60,38 @@ class ServiceController extends Controller
         $this->service->delete($service);
         return redirect()->back()->with('success', 'Xoá dịch vụ thành công.');
     }
+
+    public function serviceByCate($slug)
+    {
+        $category = ServiceCategory::where("slug", $slug)->where("status", 1)->firstOrFail();
+
+        if ($category->parent_id == 0) {
+            // Danh mục cha → lấy toàn bộ service của các danh mục con
+            $childCategoryIds = $category->children()->pluck('id');
+
+            $services = Service::whereIn('service_category_id', $childCategoryIds)
+                ->where('status', 1)
+                ->get();
+        } else {
+            // Danh mục con → lấy service theo id hiện tại
+            $services = Service::where('service_category_id', $category->id)
+                ->where('status', 1)
+                ->get();
+        }
+
+        return view("frontend.services.serviceByCate", compact("category", "services"));
+    }
+
+
+    public function detail(Service $service)
+    {
+        $relatedService = Service::where("status", 1)
+        ->where("id", '!=', $service->id)
+        ->orderBy("updated_at", "DESC")
+        ->limit(6)
+        ->get();
+
+        return view("frontend.services.detail", compact("service", "relatedService"));
+    }
+
 }

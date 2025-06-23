@@ -1,5 +1,5 @@
 .swiper-button-prev, .swiper-button-next{
-  background-color: #391f0f;
+  background-color: var(--rq-primary);
   width: 42px;
   height: 58px;
   border-radius: 5px;
@@ -19,8 +19,8 @@
 .category .swiper-button-next {
   width: 42px;
   height: 42px;
-  background-color: #391f0f;
-  border: 2px solid #391f0f;
+  background-color: var(--rq-primary);
+  border: 2px solid var(--rq-primary);
   border-radius: 50%;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   z-index: 10;
@@ -58,9 +58,9 @@
   width: 14px;
   height: 14px;
   border-radius: 3px;
-  background-color: #391f0f;
+  background-color: var(--rq-accent);
   opacity: 1;
-  transform: rotate(45deg); 
+  transform: rotate(45deg);
   transition: background-color 0.3s ease;
   position: relative;
 }
@@ -77,5 +77,5 @@
 }
 
 .swiper-pagination-bullet-active {
-  background-color: #d4992c; 
+  background-color: var(--rq-primary); 
 }
